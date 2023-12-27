@@ -10,8 +10,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 	"github.com/spf13/pflag"
-
-	"github.com/go-testfixtures/testfixtures/v3"
 )
 
 var version = "master"
@@ -36,16 +34,22 @@ func main() {
 	)
 
 	pflag.BoolVar(&versionFlag, "version", false, "show testfixtures version")
-	pflag.StringVarP(&dialect, "dialect", "d", "", "which database system you're using (postgres, timescaledb, mysql, mariadb, sqlite or sqlserver)")
+	pflag.StringVarP(&dialect, "dialect", "d", "",
+		"which database system you're using (postgres, timescaledb, mysql, mariadb, sqlite or sqlserver)")
 	pflag.StringVarP(&connString, "conn", "c", "", "a database connection string")
 	pflag.StringVarP(&dir, "dir", "D", "", "a directory of YAML fixtures to load or to dump to")
 	pflag.StringSliceVarP(&files, "files", "f", nil, "a list of YAML files to load or tables to dump")
 	pflag.StringSliceVarP(&paths, "paths", "p", nil, "a list of fixture paths to load (directory or file)")
-	pflag.BoolVar(&useDropContraint, "drop-constraint", false, "use ALTER CONSTRAINT to disable referential integrity (CockroachDB only)")
-	pflag.BoolVar(&useAlterContraint, "alter-constraint", false, "use ALTER CONSTRAINT to disable referential integrity (PostgreSQL only)")
-	pflag.BoolVar(&skipResetSequences, "no-reset-sequences", false, "skip reset of sequences after loading (PostgreSQL and MySQL/MariaDB only)")
-	pflag.Int64Var(&resetSequencesTo, "reset-sequences-to", 0, "sets the number sequences will be reset after loading fixtures (PostgreSQL and MySQL/MariaDB only, defaults to 10000)")
-	pflag.BoolVar(&skipTestDatabaseCheck, "dangerous-no-test-database-check", false, `skips check for "test" in database name (use with caution)`)
+	pflag.BoolVar(&useDropContraint, "drop-constraint", false,
+		"use ALTER CONSTRAINT to disable referential integrity (CockroachDB only)")
+	pflag.BoolVar(&useAlterContraint, "alter-constraint", false,
+		"use ALTER CONSTRAINT to disable referential integrity (PostgreSQL only)")
+	pflag.BoolVar(&skipResetSequences, "no-reset-sequences", false,
+		"skip reset of sequences after loading (PostgreSQL and MySQL/MariaDB only)")
+	pflag.Int64Var(&resetSequencesTo, "reset-sequences-to", 0,
+		"sets the number sequences will be reset after loading fixtures (PostgreSQL and MySQL/MariaDB only, defaults to 10000)")
+	pflag.BoolVar(&skipTestDatabaseCheck, "dangerous-no-test-database-check", false,
+		`skips check for "test" in database name (use with caution)`)
 	pflag.BoolVar(&dumpFlag, "dump", false, "dumping fixtures from the database into a directory")
 	pflag.Parse()
 
